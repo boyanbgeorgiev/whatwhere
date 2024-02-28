@@ -1,0 +1,8 @@
+1,masa
+2,shkaf
+3,raft
+4,pod
+5,kupa
+6,podstulbi
+7,garderob
+8,3

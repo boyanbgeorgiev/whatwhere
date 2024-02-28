@@ -1,0 +1,12 @@
+1,vilica
+2,chasha
+3,chiniq
+4,salfetka
+5,butilka
+6,prahosmukachka
+7,stulbi
+8,kojeno_palto
+9,kojeno_palto
+10,moliv
+11,3
+12,mishka
