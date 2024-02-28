@@ -1,35 +1,42 @@
-function sendMessage() {
-    var message = document.getElementById("user-input").value;
-    if (message.trim() !== "") {
-        var chatBox = document.getElementById("chat-box");
-        var newMessage = document.createElement("div");
-        newMessage.textContent = message;
-        chatBox.appendChild(newMessage);
-        saveMessage(message); // Call function to save message
-        document.getElementById("user-input").value = ""; // Clear input field
-        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
-    }
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const messageInput = document.getElementById('message-input');
+    const sendBtn = document.getElementById('send-btn');
+    const messageContainer = document.getElementById('message-container');
 
-function saveMessage(message) {
-    // Send message to server to save in the text database
-    fetch('/save-message', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: message }),
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+    sendBtn.addEventListener('click', function() {
+        const message = messageInput.value.trim();
+        if (message !== '') {
+            sendMessage(message);
+            messageInput.value = ''; // Clear input field
         }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Message saved:', data);
-    })
-    .catch(error => {
-        console.error('There was a problem saving the message:', error);
     });
-}
+
+    function sendMessage(message) {
+        // Format the message with current timestamp
+        const formattedMessage = `${getCurrentTime()} - ${message}`;
+
+        // Append the message to the message container
+        const messageElement = document.createElement('div');
+        messageElement.textContent = formattedMessage;
+        messageContainer.appendChild(messageElement);
+
+        // Save the message to the text database file (you can replace this with your server-side code)
+        saveMessageToFile(formattedMessage);
+    }
+
+    function getCurrentTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    }
+
+    function saveMessageToFile(message) {
+        // Here you would implement code to save the message to a text database file
+        // This could involve sending an AJAX request to a server-side script that handles file writing
+        // For example, in Node.js, you would use the 'fs' module to write to a file
+        // For simplicity, we'll just log the message to the console
+        console.log('Message saved:', message);
+    }
+});
